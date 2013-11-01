@@ -46,10 +46,7 @@ namespace MadsKristensen.EditorExtensions
 
                     foreach (string file in files)
                     {
-                        string jsFile = GetCompiledFileName(file, ".js", UseCompiledFolder);
-
-                        if (EditorExtensionsPackage.DTE.Solution.FindProjectItem(file) != null &&
-                            File.Exists(jsFile))
+                        if (EditorExtensionsPackage.DTE.Solution.FindProjectItem(file) != null)
                         {
                             _projectFileCount++;
 
