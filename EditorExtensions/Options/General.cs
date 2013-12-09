@@ -15,6 +15,7 @@ namespace MadsKristensen.EditorExtensions
             Settings.SetValue(WESettings.Keys.EnableMustache, EnableMustache);
             Settings.SetValue(WESettings.Keys.EnableHtmlZenCoding, EnableHtmlZenCoding);
             Settings.SetValue(WESettings.Keys.KeepImportantComments, KeepImportantComments);
+	        Settings.SetValue(WESettings.Keys.UseV8ScriptEngine, UseV8ScriptEngine);
 
             Settings.Save();
         }
@@ -24,6 +25,7 @@ namespace MadsKristensen.EditorExtensions
             EnableMustache = WESettings.GetBoolean(WESettings.Keys.EnableMustache);
             EnableHtmlZenCoding = WESettings.GetBoolean(WESettings.Keys.EnableHtmlZenCoding);
             KeepImportantComments = WESettings.GetBoolean(WESettings.Keys.KeepImportantComments);
+	        UseV8ScriptEngine = WESettings.GetBoolean(WESettings.Keys.UseV8ScriptEngine);
         }
 
         // MISC
@@ -41,6 +43,11 @@ namespace MadsKristensen.EditorExtensions
         [Description("Whether to use BOM « byte-order-mark » when saving UTF-8 files")]
         [Category("Misc")]
         public bool UseBom { get; set; }
+
+		[LocDisplayName("Use V8 Script Engine (if available)")]
+		[Description("Whether to use the V8 Script Engine if its available")]
+		[Category("Misc")]
+		public bool UseV8ScriptEngine { get; set; }
 
         [LocDisplayName("Keep important comments")]
         [Description("Don't strip important comments when minifying JS and CSS. Important comments follows this pattern: /*! text */")]

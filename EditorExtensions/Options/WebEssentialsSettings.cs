@@ -10,6 +10,7 @@ namespace MadsKristensen.EditorExtensions
             public const string EnableMustache = "HtmlEnableMustache";
             public const string KeepImportantComments = "KeepImportantComments";
             public const string UseBom = "UseBom";
+	        public const string UseV8ScriptEngine = "UseV8ScriptEngine";
 
             // LESS
             public const string GenerateCssFileFromLess = "LessGenerateCssFile";

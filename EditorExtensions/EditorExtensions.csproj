@@ -66,6 +66,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AjaxMin.5.2.5021.15814\lib\net40\AjaxMin.dll</HintPath>
     </Reference>
+    <Reference Include="ClearScript, Version=5.3.10.0, Culture=neutral, PublicKeyToken=87b7109549a47e02, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\external\ClearScript\ClearScript.dll</HintPath>
+    </Reference>
     <Reference Include="CssSorter">
       <HintPath>..\CssSorter.dll</HintPath>
     </Reference>
@@ -305,6 +309,9 @@
     <Compile Include="DropTargets\FontDrop.cs" />
     <Compile Include="DropTargets\ImageDrop.cs" />
     <Compile Include="DropTargets\TypeScriptDrop.cs" />
+    <Compile Include="ScriptEngines\BrowserScriptEngine.cs" />
+    <Compile Include="ScriptEngines\IScriptEngine.cs" />
+    <Compile Include="ScriptEngines\V8ScriptEngine.cs" />
     <Compile Include="Validation\LESS\Filters\LessAmpersandCssErrorFilter.cs" />
     <Compile Include="Validation\LESS\Filters\LessExtendCssErrorFilter.cs" />
     <Compile Include="Validation\CSS\Providers\ColorValuesInRangeErrorTagProvider.cs">
@@ -538,6 +545,22 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Classifications\RobotsTxt\robots.txt" />
+    <None Include="..\external\ClearScript\ClearScriptV8-32.dll">
+      <Link>external\ClearScriptV8-32.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\external\ClearScript\ClearScriptV8-64.dll">
+      <Link>external\ClearScriptV8-64.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\external\ClearScript\v8-ia32.dll">
+      <Link>external\v8-ia32.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\external\ClearScript\v8-x64.dll">
+      <Link>external\v8-x64.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="preview.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

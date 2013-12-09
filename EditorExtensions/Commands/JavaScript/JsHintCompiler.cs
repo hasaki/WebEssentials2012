@@ -18,29 +18,29 @@ public class JsHintCompiler : ScriptRunnerBase
         : base(dispatcher)
     { }
 
-    protected override string CreateHtml(string source, string state)
-    {
-        if (_options == null)
-        {
-            _options = new JsHintOptions();
-            _options.LoadSettingsFromStorage();
-            JsHintOptions.Changed += delegate { _options.LoadSettingsFromStorage(); GenerateSettings(); };
+	protected override string CreateSource(string source, string state)
+	{
+		if (_options == null)
+		{
+			_options = new JsHintOptions();
+			_options.LoadSettingsFromStorage();
+			JsHintOptions.Changed += delegate { _options.LoadSettingsFromStorage(); GenerateSettings(); };
 
-            GenerateSettings();
-        }
+			GenerateSettings();
+		}
 
-        source = source
-            .Replace("\\", "\\\\")
-            .Replace("\n", "\\n")
-            .Replace("\r", "\\r")
-            .Replace("'", "\\'");
+		source = source
+			.Replace("\\", "\\\\")
+			.Replace("\n", "\\n")
+			.Replace("\r", "\\r")
+			.Replace("'", "\\'");
 
-        string script = ReadResourceFile("MadsKristensen.EditorExtensions.Resources.Scripts.jshint.js") +
-                        "JSHINT('" + source + "', {" + _settings + "});" +
-                        "window.external.Execute(JSON.stringify(JSHINT.errors), '" + state.Replace("\\", "\\\\") + "')";
-
-        return "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=9\" /><script>" + script + "</script></head><html/>";
-    }
+		string script = ReadResourceFile("MadsKristensen.EditorExtensions.Resources.Scripts.jshint.js") +
+						"JSHINT('" + source + "', {" + _settings + "});" +
+						"external.Execute(JSON.stringify(JSHINT.errors), '" + state.Replace("\\", "\\\\") + "')";
+		
+		return script;
+	}
 
     private void GenerateSettings()
     {

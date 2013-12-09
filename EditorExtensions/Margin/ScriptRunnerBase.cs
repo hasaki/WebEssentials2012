@@ -3,30 +3,37 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Threading;
+using MadsKristensen.EditorExtensions;
+using MadsKristensen.EditorExtensions.ScriptEngines;
+using V8ScriptEngine = Microsoft.ClearScript.V8.V8ScriptEngine;
 
 [ComVisible(true)]
 public abstract class ScriptRunnerBase : IDisposable
 {
-    private WebBrowser _browser = new WebBrowser();
+	private Lazy<IScriptEngine> _scriptEngine = null;
     private bool _disposed;
-    private readonly Dispatcher _dispatcher;
 
-    public ScriptRunnerBase(Dispatcher dispatcher)
+    protected ScriptRunnerBase(Dispatcher dispatcher)
     {
-        _dispatcher = dispatcher;
+	    _scriptEngine = new Lazy<IScriptEngine>(() =>
+	    {
+			var useV8 = WESettings.GetBoolean(WESettings.Keys.UseV8ScriptEngine);
+			if (useV8)
+			{
+				var v8 = new MadsKristensen.EditorExtensions.ScriptEngines.V8ScriptEngine(dispatcher);
+				if (v8.IsAvailable())
+					return v8;
+			}
+
+			return new BrowserScriptEngine(dispatcher);
+	    }, false);
     }
 
-    protected abstract string CreateHtml(string source, string state);
+	protected abstract string CreateSource(string source, string state);
 
     public void Compile(string source, string state)
     {
-        _dispatcher.BeginInvoke(new Action(() =>
-        {
-            _browser.ObjectForScripting = this;
-            _browser.ScriptErrorsSuppressed = true;
-            _browser.DocumentText = CreateHtml(source, state);
-
-        }), DispatcherPriority.ApplicationIdle, null);
+	    _scriptEngine.Value.Compile(CreateSource(source, state), this);
     }
 
     public void Execute(string result, string state)
@@ -59,12 +66,10 @@ public abstract class ScriptRunnerBase : IDisposable
         {
             Completed = null;
 
-            if (_browser != null)
-            {
-                _browser.Dispose();
-            }
+			if(_scriptEngine.IsValueCreated)
+				_scriptEngine.Value.Dispose();
+	        _scriptEngine = null;
 
-            _browser = null;
             _disposed = true;
         }
     }
