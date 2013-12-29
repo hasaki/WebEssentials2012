@@ -15,6 +15,8 @@ To contribute to this project, you'll need to do a few things first:
  1. Clone it to your computer
  1. Install the [Visual Studio 2012 SDK](http://www.microsoft.com/en-us/download/details.aspx?id=30668).
  1. Open the solution in VS2012.
+ 2. This verison of Web Essentials uses the ClearScript library to host the V8 script engine.  If you wish to make modifications to [ClearScript](https://github.com/hasaki/clearscript) you'll also have to clone that repository.
+ 3. To use the V8 engine, you'll have to take the *.dlls in the external directory and place them somewhere on your computer and add that directory to your path.  Finally, open up the WebEssentials settings and enable the use of the V8 script engine there as well.
 
 To install your local fork into your main VS instance, you will first need to open `Source.extension.vsixmanifest` and bump the version number to make it overwrite the (presumably) already-installed production copy.
 
