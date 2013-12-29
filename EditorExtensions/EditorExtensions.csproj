@@ -15,6 +15,8 @@
     <StartAction>Program</StartAction>
     <StartProgram>$(DevEnvDir)\devenv.exe</StartProgram>
     <StartArguments>/rootsuffix Exp</StartArguments>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Source.extension.vsixmanifest</ApplicationManifest>
@@ -62,9 +64,9 @@
     <CopyVsixExtensionLocation>bin/release/new folder</CopyVsixExtensionLocation>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxMin, Version=5.2.5021.15808, Culture=neutral, PublicKeyToken=21ef50ce11b5d80f, processorArchitecture=MSIL">
+    <Reference Include="AjaxMin, Version=5.6.5100.19196, Culture=neutral, PublicKeyToken=21ef50ce11b5d80f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AjaxMin.5.2.5021.15814\lib\net40\AjaxMin.dll</HintPath>
+      <HintPath>..\packages\AjaxMin.5.6.5100.19204\lib\net40\AjaxMin.dll</HintPath>
     </Reference>
     <Reference Include="ClearScript, Version=5.3.10.0, Culture=neutral, PublicKeyToken=87b7109549a47e02, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -225,6 +227,7 @@
     </Compile>
     <Compile Include="Adornments\Color\IntraTextAdornmentTagger.cs" />
     <Compile Include="Classifications\CSS\BraceMatching.cs" />
+    <Compile Include="Classifications\CSS\VariableClassifier.cs" />
     <Compile Include="Classifications\HTML\HtmlRegionTagger.cs" />
     <Compile Include="Classifications\JavaScript\JavaScriptArrayOutlining.cs" />
     <Compile Include="Classifications\JavaScript\JavaScriptHighlightWordTagger.cs" />
@@ -236,6 +239,10 @@
     <Compile Include="Classifications\RobotsTxt\RobotsTxtClassificationTypes.cs" />
     <Compile Include="Classifications\RobotsTxt\RobotsTxtClassifier.cs" />
     <Compile Include="Classifications\RobotsTxt\RobotsTxtContentTypeDefinition.cs" />
+    <Compile Include="Classifications\WebVTT\WebVttClassificationTypes.cs" />
+    <Compile Include="Classifications\WebVTT\WebVttClassifier.cs" />
+    <Compile Include="Classifications\WebVTT\WebVttClassifierProvider.cs" />
+    <Compile Include="Classifications\WebVTT\WebVttContentTypeDefinition.cs" />
     <Compile Include="Commands\CommandTargetBase.cs" />
     <Compile Include="Commands\Css\CssSelectBrowsers.cs" />
     <Compile Include="Commands\Css\CssFormatCommandTarget.cs" />
@@ -289,11 +296,13 @@
     <Compile Include="Completion\CSS\CompletionProviders\UrlPickerCompletionProvider.cs" />
     <Compile Include="Completion\CSS\CompletionProviders\IdCompletionProvider.cs" />
     <Compile Include="Completion\CSS\CompletionProviders\TagCompletionProvider.cs" />
+    <Compile Include="Completion\CSS\CompletionProviders\VariableNameCompletionProvider.cs" />
     <Compile Include="Completion\CSS\ContextProviders\ClassContextProvider.cs" />
     <Compile Include="Completion\CSS\ContextProviders\LessPseudoContextProvider.cs" />
     <Compile Include="Completion\CSS\ContextProviders\UrlPickerContextProvider.cs" />
     <Compile Include="Completion\CSS\ContextProviders\IdContextProvider.cs" />
     <Compile Include="Completion\CSS\ContextProviders\TagContextProvider.cs" />
+    <Compile Include="Completion\CSS\ContextProviders\VariableContextProvider.cs" />
     <Compile Include="Completion\CSS\CustomCompletionListEntry.cs" />
     <Compile Include="Completion\CSS\Filter\GradientCompletionListFilter.cs" />
     <Compile Include="Completion\CSS\RegionCompletionListEntry.cs" />
@@ -305,6 +314,7 @@
     <Compile Include="Completion\CSS\UrlPickerCompletionListEntry.cs" />
     <Compile Include="Completion\CSS\Filter\HideInheritInitialCompletionListFilter.cs" />
     <Compile Include="DropTargets\BundleDrop.cs" />
+    <Compile Include="DropTargets\HtmlImageDrop.cs" />
     <Compile Include="DropTargets\StylesheetDrop.cs" />
     <Compile Include="DropTargets\FontDrop.cs" />
     <Compile Include="DropTargets\ImageDrop.cs" />
@@ -312,6 +322,8 @@
     <Compile Include="ScriptEngines\BrowserScriptEngine.cs" />
     <Compile Include="ScriptEngines\IScriptEngine.cs" />
     <Compile Include="ScriptEngines\V8ScriptEngine.cs" />
+    <Compile Include="Helpers\CssTreeWatcher.cs" />
+    <Compile Include="Validation\CSS\Filters\VariableCssErrorFilter.cs" />
     <Compile Include="Validation\LESS\Filters\LessAmpersandCssErrorFilter.cs" />
     <Compile Include="Validation\LESS\Filters\LessExtendCssErrorFilter.cs" />
     <Compile Include="Validation\CSS\Providers\ColorValuesInRangeErrorTagProvider.cs">
@@ -649,6 +661,7 @@
     <VsixCompressTargets Condition=" '$(VsixCompressTargets)'=='' ">$([System.IO.Path]::GetFullPath( $(MSBuildProjectDirectory)\..\packages\VsixCompress.1.0.1\tools\vsix-compress.targets ))</VsixCompressTargets>
   </PropertyGroup>
   <Import Project="$(VsixCompressTargets)" Condition="Exists('$(VsixCompressTargets)')" Label="VsixCompress" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
