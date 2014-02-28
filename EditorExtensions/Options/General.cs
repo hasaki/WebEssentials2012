@@ -16,6 +16,7 @@ namespace MadsKristensen.EditorExtensions
             Settings.SetValue(WESettings.Keys.EnableHtmlZenCoding, EnableHtmlZenCoding);
             Settings.SetValue(WESettings.Keys.KeepImportantComments, KeepImportantComments);
 	        Settings.SetValue(WESettings.Keys.UseV8ScriptEngine, UseV8ScriptEngine);
+            Settings.SetValue(WESettings.Keys.UseBom, UseBom);
 
             Settings.Save();
         }
@@ -26,6 +27,7 @@ namespace MadsKristensen.EditorExtensions
             EnableHtmlZenCoding = WESettings.GetBoolean(WESettings.Keys.EnableHtmlZenCoding);
             KeepImportantComments = WESettings.GetBoolean(WESettings.Keys.KeepImportantComments);
 	        UseV8ScriptEngine = WESettings.GetBoolean(WESettings.Keys.UseV8ScriptEngine);
+            UseBom = WESettings.GetBoolean(WESettings.Keys.UseBom);
         }
 
         // MISC
