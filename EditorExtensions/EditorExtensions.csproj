@@ -600,7 +600,7 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Resource Include="Resources\extract.png" />
-    <Content Include="Resources\Scripts\CoffeeScript-1.7.1.js" />
+    <EmbeddedResource Include="Resources\Scripts\CoffeeScript-1.7.1.js" />
     <Content Include="Resources\Scripts\es5-shim.min.js">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
